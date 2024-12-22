@@ -5,8 +5,16 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to parse JSON request bodies and handle CORS
-app.use(cors({ origin: '*' }));
+// Middleware to handle CORS with detailed configuration
+app.use(
+  cors({
+    origin: '*', // Adjust this to your frontend domain for better security
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+  })
+);
+
+// Middleware to parse JSON request bodies
 app.use(bodyParser.json());
 
 // In-memory storage for demonstration purposes
@@ -14,7 +22,6 @@ const locationData = [];
 
 // Endpoint to handle location data
 app.post('/', (req, res) => {
-  console.log(req.body);
   try {
     const { latitude, longitude } = req.body;
 
